@@ -1,4 +1,5 @@
-class UsuariosDB{
+class UsersDB{
+
     constructor(){
         this.users = [];
     }
@@ -11,4 +12,4 @@ class UsuariosDB{
     }
 };
 
-export { UsuariosDB };
+export { UsersDB };

@@ -1,14 +1,15 @@
-class ProductosDB{
+class ProductsDB{
+    
     constructor(){
-        this.productos = [];
+        this.products = [];
     }
     get(){
-        return this.productos;
+        return this.products;
     }
-    save(producto){
-        this.productos.push(producto);
-        return "Servicio guardado"
+    save(product){
+        this.products.push(product);
+        return "Producto guardado"
     }
 };
 
-export { ProductosDB };
+export { ProductsDB };
