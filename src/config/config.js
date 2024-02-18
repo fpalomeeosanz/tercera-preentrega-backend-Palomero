@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const PORT = process.env.PORT;
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URI = process.env.MONGO_URI;
 
 export const options = {
     server: {
         port: PORT
     },
     mongo: {
-        url: MONGO_URL
+        url: MONGO_URI
     }
 };
