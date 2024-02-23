@@ -1,53 +1,58 @@
 import passport from "passport";
 import LocalStrategy  from "passport-local";
 import { createHash, isValidPassword } from "../utils.js";
+import userModel from "../DAO/models/user.model.js";
 
-export const initializePassport = ()=>{
-    //Estrategia de registro
+export const initializePassport = () => {
+    
     passport.use("signupStrategy", new LocalStrategy(
         {
             usernameField:"email",
             passReqToCallback:true
         },
-        async(req,username,password,done)=>{
+        async(req,username,password,done) => {
             try {
                 const {name} = req.body;
-                const user = await UserModel.findOne({email:username});
+                const user = await userModel.findOne({email:username});
                 if(user){
                     return done(null,false)
                 }
-                //crear el usuario
+                //aca manejo los privilegios 
+                //let rol='user';
+                //if (username.endsWith("@parquetroquen.cl")) {
+                //rol = "NivelDuende";
+                //} 
                 let rol='user';
                 if (username.endsWith("@coder.com")) {
                     rol = "admin";
                 }
-                //si no existe el usuario lo registramos
+                
                 const newUser = {
                     name,
                     email:username,
                     password:createHash(password),
                     rol
                 };
-                const userCreated = await UserModel.create(newUser);
+
+                const userCreated = await userModel.create(newUser);
                 return done(null,userCreated)
             } catch (error) {
-                return done(error);
+              return done(error);
             }
         }
     ));
 
-    //estrategia de login con passport-local
     passport.use("loginStrategy", new LocalStrategy(
         {
             usernameField:"email"
         },
-        async (username, password, done)=>{
+        async (username, password, done) => {
             try {
-                const user = await UserModel.findOne({email:username});
+                const user = await userModel.findOne({email:username});
                 if(!user){
                     return done(null, false);
                 }
-                //usuario existe, validar contraseña
+                
                 if(!isValidPassword(password, user)) return done(null, false);
                 return done(null, user);
             } catch (error) {
@@ -56,13 +61,13 @@ export const initializePassport = ()=>{
         }
     ));
 
-    //serializacion y deserializacion
-    passport.serializeUser((user,done)=>{
+    
+    passport.serializeUser((user,done) => {
         done(null,user._id)
-    });//sesion {cookie, passport:user:id}
+    });
 
-    passport.deserializeUser(async(id,done)=>{
-        const userDB = await UserModel.findById(id);
+    passport.deserializeUser(async(id,done) => { 
+        const userDB = await userModel.findById(id);
         done(null, userDB)
-    });//req.user = userDB
-}
+    });
+};

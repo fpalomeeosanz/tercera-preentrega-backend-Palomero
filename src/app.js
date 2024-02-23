@@ -21,6 +21,8 @@ import passport from "passport";
 import session from "express-session";
 import { authRouter } from "./routes/auth.routes.js";
 
+import { emailSender } from "./helpers/gmail.js";
+
 const app = express();
 const PORT = options.server.port;
 
@@ -64,7 +66,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use("/api/sessions", sessionsRouter);
 
-app.post(`/register`, (req,res) => {
+app.post(`/registro`, (req,res) => {
 
     const {name, email, password} = req.body;
     const exists = users.find(user => user.email === email);
@@ -77,7 +79,12 @@ app.post(`/register`, (req,res) => {
     }
     users.push(user);
     const access_token = generateToken(user);
-    res.send({status:"success", access_token})
+    res.send({status:"success", access_token});
+
+    const respond = emailSender("fpalomerosanz@gmail.com", "registro/venta");
+    console.log(respond);
+    
+    res.json({status:"success", message:"Registro existoso!"})
 })
 app.post(`/login`, (req,res) => {
 
@@ -91,3 +98,4 @@ app.post(`/login`, (req,res) => {
 app.get(`/current`, authToken, (req,res) => {
     res.send({status:"success", payload:req.user});
 })
+

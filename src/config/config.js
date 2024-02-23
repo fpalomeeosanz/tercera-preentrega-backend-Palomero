@@ -15,5 +15,9 @@ export const options = {
     },
     key: { 
         pass: PRIVATE_KEY
+    },
+    gmail:{
+        adminAccount: process.env.ADMIN_EMAIL,
+        adminPass: process.env.ADMIN_PASS
     }
 };
