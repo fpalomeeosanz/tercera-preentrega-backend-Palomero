@@ -4,6 +4,7 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 export const options = {
     server: {
@@ -11,5 +12,8 @@ export const options = {
     },
     mongo: {
         url: MONGO_URI
+    },
+    key: { 
+        pass: PRIVATE_KEY
     }
 };
