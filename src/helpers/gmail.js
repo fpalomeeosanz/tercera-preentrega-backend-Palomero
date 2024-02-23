@@ -46,7 +46,7 @@ app.post("/registro", async (req,res)=>{
         }
         const contenido = await transporter.sendMail({
         
-            from: "Ecommerce CoderCommers",
+            from: "fpalomerosanz",
             to:emailUser,
             subject:"Registro exitoso",
             html: emailTemplate
