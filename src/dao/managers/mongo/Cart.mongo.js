@@ -57,8 +57,19 @@ export class CartMongo{
         }
     };
 
-    async delete(){
-        
-    };
+    async deleteCart(cartId) {
+      try {
+        const deletedCart = await this.model.findByIdAndDelete(cartId);
+    
+        if (!deletedCart) {
+          throw new Error("Cart not found");
+        }
+    
+        return deletedCart;
+      } catch (error) {
+        console.log(error.message);
+        throw new Error("Hubo un error al eliminar el carrito");
+      }
+    }
 
 };

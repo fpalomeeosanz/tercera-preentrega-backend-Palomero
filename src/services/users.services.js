@@ -1,7 +1,7 @@
 import { UsersDB } from "../persistencia/users.js"
 
 const usersDB = new UsersDB();
-
+  
 class UsersService{
     static getUsers = () =>{
         const users = usersDB.get();
