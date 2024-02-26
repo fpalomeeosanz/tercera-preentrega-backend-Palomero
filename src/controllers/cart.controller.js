@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { CartMongo } from "../DAO/managers/mongo/Cart.mongo.js";
 import  productModel  from "../DAO/models/product.model.js";
-import { ticketModel } from "../DAO/models/ticket.model.js";
-
+import  ticketModel  from "../DAO/models/ticket.model.js";
+import purchaseModel from '../DAO/models/purchase.model.js';
 
 const CartModel = new CartMongo();
 
@@ -39,6 +39,9 @@ export const purchase = async (req,res) => {
                 amount:500,
                 purchaser:req.user.email
             }
+
+            const purchase = await purchaseModel.create();
+            res.send();
 
             const ticketCreated = await ticketModel.create(newTicket);
             res.send(ticketCreated)

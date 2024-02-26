@@ -21,8 +21,6 @@ export { transporter };
 
 export const emailSender = async (emailUser, tipo) => {
     
-
-
 app.post("/registro", async (req,res)=>{
 
     try {

@@ -5,36 +5,60 @@ export class CartMongo{
         this.model = cartModel;
     };
 
-    async get(){
+    async get() {
         try {
-            return this.model.find();
+          return await this.model.find().populate("products.product");
         } catch (error) {
-            console.log(error.message);
-            throw new Error("Hubo un error al obtener los carritos")
+          console.log(error.message);
+          throw new Error("Hubo un error al obtener los carritos");
         }
     };
 
-    async post(){
+    async post() {
         try {
-            const cartCreated = await cartModel.create({});
-            return cartCreated;
+          const cartCreated = await cartModel.create({});
+          return cartCreated;
         } catch (error) {
-            console.log(error.message);
-            throw new Error("Hubo un error al crear el carrito")
+          console.log(error.message);
+          throw new Error("Hubo un error al crear el carrito");
         }
     };
 
-    async put(cartId, productId, quantity){
+    async put(cartId, productId, quantity) {
         try {
-            const cart = await this.model.findById(cartId);
-            cart.products.push({id:productId,quantity:quantity});
-            cart.save();
-            
-            return cart;
+          const cart = await this.model.findByIdAndUpdate(
+            cartId,
+            { $push: { products: { id: productId, quantity: quantity } } },
+            { new: true }
+          );
+          return cart;
         } catch (error) {
-            console.log(error.message);
-            throw new Error("Hubo un error al cargar el producto en el carrito")
+          console.log(error.message);
+          throw new Error("Hubo un error al cargar el producto en el carrito");
         }
+    };
+
+    async findById(cartId) {
+        return await this.model.findById(cartId).populate("products.product");
+    };
+    
+    async removePurchasedProducts(cartId, purchasedProductIds) {
+        try {
+          const updatedCart = await this.model.findByIdAndUpdate(
+            cartId,
+            { $pull:  { products: { id: { $in: purchasedProductIds } } } },
+            { new: true }
+            );
+            return updatedCart;
+
+        } catch (error) {
+          console.log(error.message);
+          throw new Error("Hubo un error al remover productos del carrito");
+        }
+    };
+
+    async delete(){
+        
     };
 
 };
