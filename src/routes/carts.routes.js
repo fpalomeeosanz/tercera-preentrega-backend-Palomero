@@ -259,9 +259,7 @@ router.post(":cid/purchase", async (req, res) => {
         await product.save();
       }
   
-      // **Generar ticket:**
       const ticket = await generateTicket(purchase._id, cart);
-  
       
       cart.products = cart.products.filter(
         (p) => !unavailableProducts.includes(p.product._id.toString())

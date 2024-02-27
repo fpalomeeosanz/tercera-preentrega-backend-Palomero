@@ -21,4 +21,7 @@ router.put("/:pid", checkRole(["admin","superadmin","NivelDuende"]) , (req,res)=
     res.send("producto agregado");
 });
 
+router.delete("/:pid", checkRole(["admin"]), async (req, res) => {
+  });
+
 export { router as productsRouter };

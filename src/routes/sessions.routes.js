@@ -3,7 +3,7 @@ import passport from "passport";
 
 const router = Router(); 
 
-//GET
+//GET GITHUB
 router.get(`/http://localhost:8080`,passport.authenticate(`github`, {scope:[`user:email`]}), async(req,res) => {
     
 });
@@ -34,4 +34,4 @@ router.post("/close", async (req, res) => {
 });
 
 
-export {router as sessionsRouter};
+export { router as sessionsRouter };

@@ -3,16 +3,6 @@ import { contactService } from "../repository/indexRepo.js";
 
 const router = Router();
 
-router.get("/", async (req,res)=>{
-    try {
-        const contacts = await contactService.getContacts();
-        res.json({status:"success", payload: contacts});
-    } catch (error) {
-        res.json({status:"error", message:error.message});
-        
-    }
-})
-
 router.post("/", async (req,res)=>{
     try {
 
@@ -24,4 +14,4 @@ router.post("/", async (req,res)=>{
     }
 });
 
-export { router as contactsRouter};
+export { router as contactsRouter };
